@@ -21,13 +21,13 @@ class Matrix{
     }
     
     // Set function for matrix
-    void Matrix :: Set(int i,int j,int value){
+    void Set(int i,int j,int value){
         if(i!=j)return;
         // i-1 because we are taking index from user starting from 1 but arrays are 0 indexed
        A[i-1] = value;
     }
     // Get function for matrix
-    int Matrix :: Get(int i,int j){
+    int Get(int i,int j){
         if (i==j){
         // i-1 because we are taking index from user starting from 1 but arrays are 0 indexed
             return A[i-1];
@@ -35,7 +35,7 @@ class Matrix{
         return 0;
     }
     // Display Matrix 
-    void Matrix :: Display(){
+    void Display(){
         for(int i = 0 ;i< n;i++){
             for (int j = 0;j< n;j++){
                 if(i==j){
@@ -52,46 +52,80 @@ class Matrix{
         delete []A;
     }
 };
-
-// C
-// structure for matrix
-struct Matrix2{
+class LowerTriangular{
+    private:
     int *A;
     int n;
-};
-// Set function for matrix2
-void Set(struct Matrix2 *m,int i,int j,int value){
-    if(i!=j)return;
-    // i-1 because we are taking index from user starting from 1 but arrays are 0 indexed
-    m->A[i-1] = value;
-}
-// Get function for matrix2
-int Get(struct Matrix2 m,int i,int j){
-
-    if (i==j){
-    // i-1 because we are taking index from user starting from 1 but arrays are 0 indexed
-        return m.A[i-1];
+    public:
+    // data - members
+    int getDimension(){
+        return n;
     }
-    return 0;
-}
-// Display Matrix2 
-void Display(struct Matrix2 m){
-    for(int i = 0 ;i< m.n;i++){
-        for (int j = 0;j< m.n;j++){
-            if(i==j){
-                cout << " "<< m.A[i] << " ";
-            }else{
-                cout << " 0 ";
-            }
+    // member functions
+    // constructor
+    LowerTriangular(){
+        n = 2;
+        A = new int[n*(n+1)/2];
+    }
+    LowerTriangular(int n){
+        this->n = n;
+        A = new int[n*(n+1)/2];
+    }
+    
+    // Set function for LowerTriangular
+    void Set(int i,int j,int value){
+        if(i>=j){
+            A[i*(i-1)/2 + j-1]=value;
         }
-        cout<< endl;
     }
-}
+    // Get function for LowerTriangular
+    int Get(int i,int j){
+        if (i>=j){
+            return A[i*(i-1)/2 + j-1];
+        }else{
+            return 0;
+        }
+    }
+    // Display LowerTriangular 
+    void Display(){
+        for(int i = 1 ;i<= n;i++){
+            for (int j = 1;j<= n;j++){
+                if(i>=j){
+                    cout << " "<< A[i*(i-1)/2 + j-1] << " ";
+                }else{
+                    cout << " 0 ";
+                }
+            }
+            cout<< endl;
+        }
+    }
+    // destructor 
+    ~LowerTriangular(){
+        delete []A;
+    }
+};
 
 // main
 int main(){
 
+    LowerTriangular lm(5);
+    int n = lm.getDimension();
+    int x ;
+    cout << "enter elements" << endl;
+    for(int i = 1;i<= n;i++){
+        for(int j = 1;j<=n;j++){
+            if(i>=j){
+                cin >> x;
+                lm.Set(i,j,x);
+            }else{
+                break;
+            }
+        }
+    }
+    lm.Display();
+    /*
     Matrix m(5);
+
     m.Set(1,1,3);
     m.Set(2,2,4);
     m.Set(3,3,7);
@@ -100,7 +134,6 @@ int main(){
     m.Display();
     cout<< m.Get(1,4) << endl;
     cout<< m.Get(1,1) << endl;
-    /*
     struct Matrix m;
     // cout << "size of the matrix ";
     // cin >> m.n;
@@ -144,3 +177,41 @@ int main(){
 return 0;
 
 }
+
+/*
+// C
+// structure for matrix
+struct Matrix2{
+    int *A;
+    int n;
+};
+// Set function for matrix2
+void Set(struct Matrix2 *m,int i,int j,int value){
+    if(i!=j)return;
+    // i-1 because we are taking index from user starting from 1 but arrays are 0 indexed
+    m->A[i-1] = value;
+}
+// Get function for matrix2
+int Get(struct Matrix2 m,int i,int j){
+
+    if (i==j){
+    // i-1 because we are taking index from user starting from 1 but arrays are 0 indexed
+        return m.A[i-1];
+    }
+    return 0;
+}
+// Display Matrix2 
+void Display(struct Matrix2 m){
+    for(int i = 0 ;i< m.n;i++){
+        for (int j = 0;j< m.n;j++){
+            if(i==j){
+                cout << " "<< m.A[i] << " ";
+            }else{
+                cout << " 0 ";
+            }
+        }
+        cout<< endl;
+    }
+}
+
+*/
