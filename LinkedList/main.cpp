@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<iostream>
+#include<set>
 using namespace std;
 
 struct Node{
@@ -224,30 +225,56 @@ int Delete(struct Node *p,int index){
     }
     return x;
 }
+// check sorted
+bool checkSorted(struct Node *p){
+    int x  = p->data;
+    p = p->next;
+    while(p!=NULL){
+        if(p->data < x){
+            return false;
+        }
+        x = p->data;
+        p=p->next;
+    }
+    return true;
+}
+// delete duplicates
+// sorted
+void sortedDuplicateDelete(struct Node *p){
+    struct Node *q = p;
+    p = p->next;
+    while(p!=NULL){
+        if(p->data == q->data){
+            q->next = p->next;
+            delete p;
+            p = q->next;
+        }else{
+            q = p;
+            p = p->next;
+        }
+    }
+}
+// unsorted 
+void unsortedDuplicateDelete(struct Node *p){
+    set<int, greater<int> > s1;
+    struct Node *q= NULL;
+    while(p!=NULL){
+        if(s1.count(p->data) == 1){
+            q->next = p->next;
+            delete p;
+            p = q->next;
+        }else{
+            s1.insert(p->data);
+            q = p;
+            p = p->next;
+        }
+    }
+}
 int main(){
-    int A[] ={3,4,5,7,8};
-    create(A,5);
-    Delete(head,9);
+    int A[] ={3,4,5,3,7,5,8};
+    create(A,7);
+    // sortedDuplicateDelete(head);
+    unsortedDuplicateDelete(head);
     Rdisplay(head);
     return 0;
 }
-/*
-struct check {
-    int a ;
-    struct check *n;
-};
-struct check *ab;
-struct check *bs;
-ab = (struct check *)malloc(sizeof(struct check));
-    bs = new check;
-    bs->a = 98;
-    struct check *p = ab;
-    ab->a = 56;
-    ab->n = bs;
-    cout << p->a << " " << p->n << endl;;
-    p = ab->n;
-    cout << ab->a << " " << ab->n << endl;;
-    cout << bs << endl;
-    cout << p->a << " " << p->n << endl;;
-
-*/
