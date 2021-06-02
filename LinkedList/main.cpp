@@ -270,11 +270,54 @@ void unsortedDuplicateDelete(struct Node *p){
         }
     }
 }
+// reversing linked list
+// changing values /*DONT USE THIS METHOD : REASON -> */ : we DO NOT USE THIS METHOD BECAUSE WE DON'T WANT MOVEMENT OF DATA IN A LINKED LIST, AS A LOT OF DATA MAY BE REQUIRED TO BE MOVED/CHANGED.
+void reverseChangeValues(struct Node *p){
+    // int size = count(p);
+    // int A[size];
+    int *A;
+    A = (int *)malloc(count(p) * sizeof(int));
+    int i = 0;
+    while (p!=NULL)
+    {
+        A[i] = p->data;
+        p=p->next;
+        i++;
+    }
+    p = head;
+    i--;
+    while (p!=NULL)
+    {
+        p->data = A[i];
+        i--;
+        p=p->next;
+    }
+}
+// reversing linked list using sliding pointers:
+void reverse(struct Node *p){
+    struct Node *q = NULL,*r = NULL;
+    while(p!=NULL){
+        r = q;
+        q = p;
+        p = p->next;
+        q->next = r;
+    }
+    head = q;
+}
+void Rreverse(struct Node *q,struct Node *p){
+    if(p){
+        Rreverse(p,p->next);
+        p->next = q;
+    }else{
+        head = q;
+    }
+}
 int main(){
     int A[] ={3,4,5,3,7,5,8};
     create(A,7);
     // sortedDuplicateDelete(head);
     unsortedDuplicateDelete(head);
+    Rreverse(NULL,head);
     Rdisplay(head);
     return 0;
 }
