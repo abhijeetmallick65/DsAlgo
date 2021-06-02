@@ -10,10 +10,10 @@ struct Node{
 };
 
 struct Node *head;
+struct Node *second;
+struct Node *third;
 
 void create(int A[],int n){
-
-
     struct Node *temp,*last;
     
     head = (struct Node *)malloc(sizeof(struct Node));
@@ -21,6 +21,34 @@ void create(int A[],int n){
     head->next = NULL;
     // we want last as a pointer to point it to some nodes, we don't requires memory structure for last, so new is not used with last
     last = head;
+    int i = 1;
+
+
+    while (i<n)
+    {
+        /* code */
+        // temp = new Node;
+        // new node
+        temp = (struct Node *)malloc(sizeof(struct Node));
+        // add data
+        temp->data = A[i];
+        // next is null
+        temp->next = NULL;
+        // connect to previous
+        last->next = temp;
+        // move to latest *last*
+        last = temp;
+        i++;
+    }
+}
+void create2(int A[],int n){
+    struct Node *temp,*last;
+    
+    second = (struct Node *)malloc(sizeof(struct Node));
+    second->data = A[0];
+    second->next = NULL;
+    // we want last as a pointer to point it to some nodes, we don't requires memory structure for last, so new is not used with last
+    last = second;
     int i = 1;
 
 
@@ -312,12 +340,60 @@ void Rreverse(struct Node *q,struct Node *p){
         head = q;
     }
 }
+// concat
+void concat(struct Node *p,struct Node *q){
+    while (p->next != NULL)
+    {
+        p = p->next;
+    }
+    p->next = q;
+    
+}
+// merge
+struct Node * merge(struct Node *p,struct Node *q){
+    struct Node *last = NULL;
+    // 1st check
+    if(p->data < q->data){
+        third = last = p;
+        p=p->next;
+        third->next = NULL;
+    }else{
+        third = last = q;
+        q = q->next;
+        third->next = NULL;
+    }
+    // loop
+    while (p != NULL && q != NULL)
+    {
+        if(p->data < q->data){
+            last->next = p;
+            last = p;
+            p =p->next;
+            last->next = NULL;
+        }else{
+            last->next = q;
+            last = q;
+            q = q->next;
+            last->next = NULL;
+        }
+    }
+    // after loop finishes
+    if(p){
+        last->next = p;
+        last = p;
+    }else{
+        last->next = q;
+        last = q;
+    }
+    return third;
+}
 int main(){
-    int A[] ={3,4,5,3,7,5,8};
-    create(A,7);
-    // sortedDuplicateDelete(head);
-    unsortedDuplicateDelete(head);
-    Rreverse(NULL,head);
-    Rdisplay(head);
+    int A[] ={1,3,5,7,9};
+    int B[] = {2,4,6,8,10};
+    create(A,5);
+    create2(B,5);
+    merge(head,second);
+    Display(head);
+
     return 0;
 }
