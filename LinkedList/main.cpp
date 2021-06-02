@@ -60,8 +60,7 @@ void Rdisplay(struct Node *p){
     }
 }
 // Linked list operations
-int count(){
-    struct Node *p = head;
+int count(struct Node *p ){
     int count = 0;
     while(p != 0){
         count++;
@@ -204,12 +203,31 @@ void sortedInsert(struct Node *p,int val){
         }
     }
 }
+// 2/6/21
+int Delete(struct Node *p,int index){
+    if(index < 1 || index > count(p))return -1;
+    struct Node *q = NULL;
+    int x = -1;
+    if(index == 1){
+        p = head;
+        head = head->next;
+        x = p->data;
+        delete p;
+    }else{
+        for(int i = 0; i<index-1;i++){
+            q = p;
+            p= p->next;
+        }
+        x = p->data;
+        q->next = p->next;
+        delete p;
+    }
+    return x;
+}
 int main(){
     int A[] ={3,4,5,7,8};
-    // create(A,5);
-    sortedInsert(head,6);
-    sortedInsert(head,2);
-    sortedInsert(head,12);
+    create(A,5);
+    Delete(head,9);
     Rdisplay(head);
     return 0;
 }
