@@ -340,6 +340,7 @@ void Rreverse(struct Node *q,struct Node *p){
         head = q;
     }
 }
+<<<<<<< HEAD
 // concat
 void concat(struct Node *p,struct Node *q){
     while (p->next != NULL)
@@ -395,5 +396,23 @@ int main(){
     merge(head,second);
     Display(head);
 
+=======
+
+// 3/6/21
+// LoopCheck : 2 pointers
+bool loopCheck(struct Node *head){
+    struct Node *p,*q;
+    p = q = head;
+    do{
+        p=p->next;
+        q = q->next;
+        q = q?q->next:q;
+    }while(p && q && p!=q);
+    return p==q ? true : false;
+}
+int main(){
+    int A[] ={3,4,5,7,8};
+    create(A,5);
+>>>>>>> ce26a250521ee43289fb8366843cb212ac4d20cf
     return 0;
 }
