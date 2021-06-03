@@ -328,11 +328,5 @@ bool loopCheck(struct Node *head){
 int main(){
     int A[] ={3,4,5,7,8};
     create(A,5);
-    struct Node *t2,*t3;
-    t2  = head->next;
-    t3 = head->next->next->next;
-
-    t3->next = t2;
-cout << "check " << loopCheck(head)<< endl;
     return 0;
 }
