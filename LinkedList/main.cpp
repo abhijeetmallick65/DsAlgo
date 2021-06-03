@@ -312,12 +312,27 @@ void Rreverse(struct Node *q,struct Node *p){
         head = q;
     }
 }
+
+// 3/6/21
+// LoopCheck : 2 pointers
+bool loopCheck(struct Node *head){
+    struct Node *p,*q;
+    p = q = head;
+    do{
+        p=p->next;
+        q = q->next;
+        q = q?q->next:q;
+    }while(p && q && p!=q);
+    return p==q ? true : false;
+}
 int main(){
-    int A[] ={3,4,5,3,7,5,8};
-    create(A,7);
-    // sortedDuplicateDelete(head);
-    unsortedDuplicateDelete(head);
-    Rreverse(NULL,head);
-    Rdisplay(head);
+    int A[] ={3,4,5,7,8};
+    create(A,5);
+    struct Node *t2,*t3;
+    t2  = head->next;
+    t3 = head->next->next->next;
+
+    t3->next = t2;
+cout << "check " << loopCheck(head)<< endl;
     return 0;
 }
