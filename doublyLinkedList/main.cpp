@@ -89,6 +89,18 @@ int Delete(struct Node *p,int index){
     }
     return x;
 }
+// reverse
+void Reverse(struct Node *p){
+    struct Node *temp;
+    while(p!=NULL){
+        temp = p->next;
+        p->next = p->prev;
+        p->prev = temp;
+        p = p->prev;
+        if(p != NULL && p->next == NULL)
+            head = p;
+    }
+}
 // Display
 void Display(struct Node *p){
     while(p!=NULL){
@@ -100,7 +112,7 @@ void Display(struct Node *p){
 int main(){
     int A[] = {1,2,3,4,5};
     create(A,5);
-    Delete(head,5);
+    Reverse(head);
     Display(head);
     return 0;
 }
