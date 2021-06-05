@@ -47,7 +47,7 @@ void Insert(struct Node *p,int pos,int value){
     temp->data = value;
     temp->prev = temp->next = NULL;
 
-    if(pos ==0){
+    if(pos == 0){
         if(head == NULL){
             head = temp;
         }else{
@@ -68,7 +68,7 @@ void Insert(struct Node *p,int pos,int value){
     }
 }
 int Delete(struct Node *p,int index){
-    if(index < 0 || index > Length(p))return -1;
+    if(index < 1 || index > Length(p))return -1;
 
     int x  = 0;
     struct Node *temp = head;
