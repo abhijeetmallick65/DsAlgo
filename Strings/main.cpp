@@ -155,7 +155,7 @@ void stringMatch(char a[],char b[]){
     else cout << "larger";
     
 }
-void palindrome(char *a){
+void palindrome(/*pointer to a array of characters*/char *a){
     int l = StringLen(a);
     int i =0 , j = l-1;
     while(i<j){
