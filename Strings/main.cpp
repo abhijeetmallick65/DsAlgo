@@ -177,8 +177,10 @@ int main(){
     // char n[10] = {'j','o','h','n','\0'};
     // char n[] = {'j','o','h','n','\0'};
     // char n[] = "vowel               this     consonant";
+    /*
     // this is a *string literal* and it is not *MUTABLE*
     // char *n = "john";
+    */
     // printf("%s",n);
     // cout << StringLen(n);
     // changeCase(n);
