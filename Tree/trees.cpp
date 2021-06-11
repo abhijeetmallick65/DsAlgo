@@ -5,11 +5,11 @@
 
 struct Node *root = NULL;
 struct Queue q;
+
 // treecreate
 void treeCreate(){
     struct Node *p,*t;
     int x;
-    
     create(&q,100);
 
     cout << " enter the root value " << endl;
@@ -66,6 +66,7 @@ void postOrder(struct Node *p){
     postOrder(p->rightChild);
     cout << p->data << " ";
 }
+// main
 int main(){
     treeCreate();
     cout << endl;
