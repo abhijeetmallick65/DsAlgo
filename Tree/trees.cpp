@@ -99,28 +99,33 @@ void Iinorder(struct Node *p){
         }
     }
 }
-/*
+
 // postorder
 void Ipostorder(struct Node *p){
-    struct Stack stk;
-    createStack(&stk,100);
-    while(!isEmptyStack(stk) || p){
-        if(p){
-            push(&stk,p);
-            p = p->leftChild;
-        }else{
-            p = pop(&stk);
-            if(p > 0){
-                push(&stk,-p);
-                p = p->rightChild;
-            }else{
-                p = pop(&stk);
-                cout << p->data << " ";
-            }
-        }
+    struct Stack stk1;
+    struct Stack stk2;
+    createStack(&stk1,100);
+    createStack(&stk2,100);
+   while (!isEmptyStack(stk1)) {
+        // Pop an item from &stk1 and push it to &stk2
+        p = pop(&stk1);
+        push(&stk2, p);
+  
+        // Push left and right children of removed item to &stk1
+        if (p->leftChild)
+            push(&stk1, p->leftChild);
+        if (p->rightChild)
+            push(&stk1, p->rightChild);
+    }
+  
+    // Print all elements of second stack
+    while (!isEmptyStack(stk2)) {
+        cout<< "i ran";
+        p = pop(&stk2);
+        printf("%d ", p->data);
     }
 }
-*/
+
 void levelOrder(struct Node *p){
     struct Queue q;
     create(&q,100);
@@ -140,12 +145,13 @@ void levelOrder(struct Node *p){
 int main(){
     createTree();
     cout << endl;
-    levelOrder(root);
+    // levelOrder(root);
     // Preorder(root);
     // Inorder(root);
     cout << endl;
     // Ipreorder(root);
     // Iinorder(root);
+    Ipostorder(root);
     cout << endl;
     // postOrder(root);
     return 0;
