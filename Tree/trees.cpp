@@ -5,43 +5,40 @@
 
 struct Node *root = NULL;
 struct Queue q;
-
-// treecreate
-void treeCreate(){
+int x = 0;
+// create tree
+void createTree(){
     struct Node *p,*t;
-    int x;
     create(&q,100);
-
-    cout << " enter the root value " << endl;
-    scanf("%d",&x);
-    root= (struct Node *)malloc(sizeof(struct Node));
+    cout << "enter root data : ";
+    cin >> x;
+    root = (struct Node *)malloc(sizeof(struct Node));
     root->data = x;
     root->leftChild = root->rightChild = NULL;
     enqueue(&q,root);
 
     while(!isEmpty(q)){
-        p = dequeue(&q);
-        cout << "Enter the leftchild " << p->data <<endl;
-        scanf("%d",&x);
+        t = dequeue(&q);
+        cout<<"enter left child of " << t->data << " : ";
+        cin>>x;
         if(x!=-1){
-            t = (struct Node *)malloc(sizeof(struct Node));
-            t->data = x;
-            t->leftChild = t->rightChild = NULL;
-            p->leftChild = t;
-            enqueue(&q,t);
+            p = (struct Node *)malloc(sizeof(struct Node));
+            p->data = x;
+            p->leftChild = p->rightChild = NULL;
+            t->leftChild = p;
+            enqueue(&q,p);
         }
-        cout << "Enter the rightchild "<< p->data <<endl;
-        scanf("%d",&x);
+        cout<<"enter right child of " << t->data << " : ";
+        cin>>x;
         if(x!=-1){
-            t = (struct Node *)malloc(sizeof(struct Node));
-            t->data = x;
-            t->leftChild = t->rightChild = NULL;
-            p->rightChild = t;
-            enqueue(&q,t);
+            p = (struct Node *)malloc(sizeof(struct Node));
+            p->data = x;
+            p->leftChild = p->rightChild = NULL;
+            t->rightChild = p;
+            enqueue(&q,p);
         }
     }
 }
-
 // preorder : root , left , right
 void Preorder(struct Node *p)
 {
@@ -68,7 +65,7 @@ void postOrder(struct Node *p){
 }
 // main
 int main(){
-    treeCreate();
+    createTree();
     cout << endl;
     Preorder(root);
     cout << endl;
