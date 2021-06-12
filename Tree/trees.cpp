@@ -106,10 +106,11 @@ void Ipostorder(struct Node *p){
     struct Stack stk2;
     createStack(&stk1,100);
     createStack(&stk2,100);
+    push(&stk1,p);
    while (!isEmptyStack(stk1)) {
         // Pop an item from &stk1 and push it to &stk2
         p = pop(&stk1);
-        push(&stk2, p);
+        push(&stk2,p);
   
         // Push left and right children of removed item to &stk1
         if (p->leftChild)
@@ -120,7 +121,6 @@ void Ipostorder(struct Node *p){
   
     // Print all elements of second stack
     while (!isEmptyStack(stk2)) {
-        cout<< "i ran";
         p = pop(&stk2);
         printf("%d ", p->data);
     }
