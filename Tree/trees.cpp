@@ -1,11 +1,12 @@
 
 #include<stdio.h>
 #include<stdlib.h>
-#include "header.h"
+#include "Stack.h"
 
 struct Node *root = NULL;
 struct Queue q;
 int x = 0;
+
 // create tree
 void createTree(){
     struct Node *p,*t;
@@ -39,6 +40,8 @@ void createTree(){
         }
     }
 }
+
+// Recursive Traversals
 // preorder : root , left , right
 void Preorder(struct Node *p)
 {
@@ -63,14 +66,87 @@ void postOrder(struct Node *p){
     postOrder(p->rightChild);
     cout << p->data << " ";
 }
+
+// Iterative Traversals
+
+// preorder
+void Ipreorder(struct Node *p){
+    struct Stack stk;
+    createStack(&stk,100);
+    while(!isEmptyStack(stk) || p){
+        if(p){
+            cout << p->data << " ";
+            push(&stk,p);
+            p = p->leftChild;
+        }else{
+            p = pop(&stk);
+            p = p->rightChild;
+        }
+    }
+}
+// inorder
+void Iinorder(struct Node *p){
+    struct Stack stk;
+    createStack(&stk,100);
+    while(!isEmptyStack(stk)||p){
+        if(p){
+            push(&stk,p);
+            p = p->leftChild;
+        }else{
+            p = pop(&stk);
+            cout << p->data << " ";
+            p = p->rightChild;
+        }
+    }
+}
+/*
+// postorder
+void Ipostorder(struct Node *p){
+    struct Stack stk;
+    createStack(&stk,100);
+    while(!isEmptyStack(stk) || p){
+        if(p){
+            push(&stk,p);
+            p = p->leftChild;
+        }else{
+            p = pop(&stk);
+            if(p > 0){
+                push(&stk,-p);
+                p = p->rightChild;
+            }else{
+                p = pop(&stk);
+                cout << p->data << " ";
+            }
+        }
+    }
+}
+*/
+void levelOrder(struct Node *p){
+    struct Queue q;
+    create(&q,100);
+    enqueue(&q,p);
+    while(!isEmpty(q)){
+        p = dequeue(&q);
+        if(p)cout << p->data << " ";
+        if(p->leftChild){
+            enqueue(&q,p->leftChild);
+        }
+        if(p->rightChild){
+            enqueue(&q,p->rightChild);
+        }
+    }
+} 
 // main
 int main(){
     createTree();
     cout << endl;
-    Preorder(root);
+    levelOrder(root);
+    // Preorder(root);
+    // Inorder(root);
     cout << endl;
-    Inorder(root);
+    // Ipreorder(root);
+    // Iinorder(root);
     cout << endl;
-    postOrder(root);
+    // postOrder(root);
     return 0;
 }
