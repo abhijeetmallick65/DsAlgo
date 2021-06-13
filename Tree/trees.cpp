@@ -140,19 +140,50 @@ void levelOrder(struct Node *p){
             enqueue(&q,p->rightChild);
         }
     }
-} 
+}
+//count all nodes
+int count(struct Node *p){
+    if(p == NULL)return 0;
+    return 1+count(p->leftChild)+count(p->rightChild);
+}
+//count leaf nodes
+int countLeaf(struct Node *p){
+    if(p == NULL)return 0;
+    if(p->rightChild == NULL && p->leftChild == NULL)return 1;
+    return countLeaf(p->leftChild)+countLeaf(p->rightChild);
+}
+//sum of all nodes
+int sum(struct Node *p){
+    if(p == NULL)return 0;
+    return p->data + sum(p->leftChild)+sum(p->rightChild);
+}
+//height
+int height(struct Node *p){
+    if(p == NULL)return 0;
+    int left = height(p->leftChild);
+    int right = height(p->rightChild);
+    if(left > right){
+        return 1 + left;
+    }else{
+        return 1 + right;
+    }
+}
 // main
 int main(){
     createTree();
-    cout << endl;
+    // cout << endl;
     // levelOrder(root);
     // Preorder(root);
     // Inorder(root);
-    cout << endl;
+    // cout << endl;
     // Ipreorder(root);
     // Iinorder(root);
-    Ipostorder(root);
+    Inorder(root);
     cout << endl;
+    // cout << count(root) ;
+    // cout << countLeaf(root) ;
+    // cout << sum(root) ;
+    cout<<height(root);
     // postOrder(root);
     return 0;
 }
