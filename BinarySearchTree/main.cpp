@@ -34,6 +34,20 @@ void insert(int data){
     else q->leftchild = p;
 }
 
+//Recursive insert
+struct Node * Rinsert(struct Node *p,int data){
+    if(p == NULL){
+        p = new Node;
+        p->data = data;
+        p->leftchild = p->rightchild = NULL;
+        return p;
+    }else if(p->data < data){
+        p->rightchild = Rinsert(p->rightchild,data);
+    }else{
+        p->leftchild = Rinsert(p->leftchild,data);
+    }
+    return p;
+}
 //ITERATIVE SEARCH
 struct Node * search(int data){
     if(root == NULL)return NULL;
@@ -48,6 +62,16 @@ struct Node * search(int data){
 
 }
 
+//Recursive Search
+struct Node * Rsearch(struct Node *p,int data){
+    if(p == NULL || p->data == data)return p;
+    else if(p->data < data){
+        return Rsearch(p->rightchild,data);
+    }else{
+        return Rsearch(p->leftchild,data);
+    }
+}
+
 //INORDER TRAVERSAL
 void inorder(struct Node *p){
     if(p!=NULL){
@@ -59,13 +83,20 @@ void inorder(struct Node *p){
 
 //Main
 int main(){
-      // Insert
-    insert(10);
-    insert(5);
-    insert(20);
-    insert(8);
-    insert(30);
- 
+      // RInsert
+    root = Rinsert(root,10);
+    Rinsert(root,5);
+    Rinsert(root,20);
+    Rinsert(root,8);
+    Rinsert(root,30);
+    //   // Insert
+    // insert(10);
+    // insert(5);
+    // insert(20);
+    // insert(8);
+    // insert(30);
+    struct Node *temp = Rsearch(root,5);
+    cout<< temp->data<< endl;
     inorder(root);
     return 0;
 }
