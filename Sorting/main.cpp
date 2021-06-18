@@ -24,6 +24,30 @@ int * BubbleSort(int a[],int n){
     }
     return a;
 }
+//Insertion sort
+void InsertionSort(int a[],int n){
+    int x = 0,j = 0;
+    for(int i = 1;i<n;i++){
+        x = a[i];
+        j = i-1;
+        while(j>=0 && a[j]>x){
+            a[j+1] = a[j];
+            j--;
+        }
+        a[j+1] = x;
+    }
+}
+
+//Selection sort
+void SelectionSort(int a[],int n){
+    int i,j,k;
+    for(i = 0 ;i<n;i++){
+        for(j = k = i;j<n;j++){
+            if(a[j] < a[k])k = j;
+        }
+        swap(&a[i],&a[k]);
+    }
+}
 //Display
 void Display(int a[],int n){
     for(int i = 0;i<n;i++){
@@ -31,10 +55,12 @@ void Display(int a[],int n){
     }
     cout << endl;
 }
+//main
 int main(){
     int a[] = {3,1,5,7,8,12,9,4,11,2};
-    int *b = BubbleSort(a,10);
-    Display(b,10);
+    // BubbleSort(a,10);
+    // InsertionSort(a,10);
+    SelectionSort(a,10);
     Display(a,10);
     return 0;
 }
