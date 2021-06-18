@@ -70,6 +70,7 @@ void quickSort(int a[],int low,int high){
         quickSort(a,j+1,high);
     }
 }
+
 //Display
 void Display(int a[],int n){
     for(int i = 0;i<n;i++){
@@ -77,6 +78,7 @@ void Display(int a[],int n){
     }
     cout << endl;
 }
+
 //main
 int main(){
     int a[] = {3,1,5,7,8,12,9,4,11,2};
