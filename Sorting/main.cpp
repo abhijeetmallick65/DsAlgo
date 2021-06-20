@@ -71,6 +71,34 @@ void quickSort(int a[],int low,int high){
     }
 }
 
+// MERGE
+void merger(int a[],int low,int high,int mid){
+    int i = low,j = mid+1,k = low;
+    int b[high+1];
+    while(i<=mid&&j<=high){
+        if(a[i] > a[j])b[k++]=a[j++];
+        else b[k++] = a[i++];
+    }
+
+    while(i <= mid)b[k++] = a[i++];
+    while(j <= high)b[k++] = a[j++];
+
+    for(int i= low;i<= high;i++){
+       a[i] = b[i];
+    }
+}
+void iterativeMerge(int a[],int n){
+    int p,low,high,i,mid;
+    for(p = 2;p<=n;p=p*2){
+        for(int i = 0;i+p-1<n;i=i+p){
+            low = i;
+            high = i+p-1;
+            mid = (low+high)/2;
+            merger(a,low,high,mid);
+        }
+    }
+    if(p/2 < n)merger(a,0,n-1,p/2-1);
+}
 //Display
 void Display(int a[],int n){
     for(int i = 0;i<n;i++){
@@ -85,7 +113,8 @@ int main(){
     // BubbleSort(a,10);
     // InsertionSort(a,10);
     // SelectionSort(a,10);
-    quickSort(a,0,10);
+    // quickSort(a,0,10);
+    iterativeMerge(a,10);
     Display(a,10);
     return 0;
 }
