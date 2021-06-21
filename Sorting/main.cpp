@@ -99,6 +99,29 @@ void iterativeMerge(int a[],int n){
     }
     if(p/2 < n)merger(a,0,n-1,p/2-1);
 }
+
+void merger2(int a[],int low,int mid,int high){
+    int i = low,j = mid+1,k = 0;
+    int b[high+1];
+    while(i<=mid && j<=high){
+        if(a[i] < a[j])b[k++] = a[i++];
+        else b[k++] = a[j++];
+    }
+
+    while(i<=mid)b[k++] = a[i++];
+    while(j<=high)b[k++] = a[j++];
+
+    for(int i = low;i<=high;i++)a[i] = b[i];
+}
+
+void recursiveMerge(int a[],int low,int high){
+    if(low < high){
+        int mid = (low+high)/2;
+        recursiveMerge(a,low,mid);
+        recursiveMerge(a,mid+1,high);
+        merger2(a,low,mid,high);
+    }
+}
 //Display
 void Display(int a[],int n){
     for(int i = 0;i<n;i++){
@@ -114,7 +137,8 @@ int main(){
     // InsertionSort(a,10);
     // SelectionSort(a,10);
     // quickSort(a,0,10);
-    iterativeMerge(a,10);
+    // iterativeMerge(a,10);
+    recursiveMerge(a,0,10);
     Display(a,10);
     return 0;
 }
