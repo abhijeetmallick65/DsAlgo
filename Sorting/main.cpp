@@ -72,9 +72,10 @@ void quickSort(int a[],int low,int high){
 }
 
 // MERGE
-void merger(int a[],int low,int high,int mid){
+void merger(int a[],int low,int mid,int high){
     int i = low,j = mid+1,k = low;
-    int b[high+1];
+    int b[100];
+
     while(i<=mid&&j<=high){
         if(a[i] > a[j])b[k++]=a[j++];
         else b[k++] = a[i++];
@@ -87,6 +88,7 @@ void merger(int a[],int low,int high,int mid){
        a[i] = b[i];
     }
 }
+void Display(int a[],int n );
 void iterativeMerge(int a[],int n){
     int p,low,high,i,mid;
     for(p = 2;p<=n;p=p*2){
@@ -96,31 +98,53 @@ void iterativeMerge(int a[],int n){
             mid = (low+high)/2;
             merger(a,low,high,mid);
         }
+    Display(a,high);
     }
     if(p/2 < n)merger(a,0,n-1,p/2-1);
 }
 
-void merger2(int a[],int low,int mid,int high){
-    int i = low,j = mid+1,k = 0;
-    int b[high+1];
-    while(i<=mid && j<=high){
-        if(a[i] < a[j])b[k++] = a[i++];
-        else b[k++] = a[j++];
-    }
-
-    while(i<=mid)b[k++] = a[i++];
-    while(j<=high)b[k++] = a[j++];
-
-    for(int i = low;i<=high;i++)a[i] = b[i];
-}
-
 void recursiveMerge(int a[],int low,int high){
+    int mid;
     if(low < high){
-        int mid = (low+high)/2;
+        mid = (low+high)/2;
         recursiveMerge(a,low,mid);
         recursiveMerge(a,mid+1,high);
-        merger2(a,low,mid,high);
+        merger(a,low,mid,high);
     }
+}
+// practice
+void mergerP(int a[],int l,int m,int h){
+    int i = l,j = m+1,k = l;
+    int b[100];
+    while(i<=m && j<=h){
+        if(a[i] < a[j])b[k++]=a[i++];
+        else b[k++] = a[j++];
+    }
+    while(i<=m)b[k++]=a[i++];
+    while(j<=h)b[k++]=a[j++];
+    for(int i = l;i<=h;i++){
+        a[i]=b[i];
+    } 
+}
+void recursiveMergeSort(int a[],int l,int h){
+    if(l<h){
+        int mid = (l+h)/2;
+        recursiveMergeSort(a,l,mid);
+        recursiveMergeSort(a,mid+1,h);
+        mergerP(a,l,mid,h);
+    }
+}
+void iterativeMergesort(int a[],int n){
+    int p =2,i = 0;
+    for(p = 2;p<=n;p*=2){
+        for(i =0;i+p-1<n;i+=p){
+            int l = i;
+            int h = i+p-1;
+            int m = (l+h)/2;
+            mergerP(a,l,m,h);
+        }
+    }
+    if(p/2 < n)mergerP(a,0,p/2-1,n-1);
 }
 //Display
 void Display(int a[],int n){
@@ -138,7 +162,9 @@ int main(){
     // SelectionSort(a,10);
     // quickSort(a,0,10);
     // iterativeMerge(a,10);
-    recursiveMerge(a,0,10);
+    // recursiveMerge(a,0,10);
+    // recursiveMergeSort(a,0,10);
+    iterativeMergesort(a,10);
     Display(a,10);
     return 0;
 }
