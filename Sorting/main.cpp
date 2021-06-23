@@ -146,6 +146,85 @@ void iterativeMergesort(int a[],int n){
     }
     if(p/2 < n)mergerP(a,0,p/2-1,n-1);
 }
+//count sort
+int findMax(int a[],int n){
+    int max = INT32_MIN;
+    for(int i = 0;i<n;i++){
+        if(max < a[i])max =a[i];
+    }
+    return max;
+}
+void Display(int a[],int n);
+void countSort(int a[],int n){
+    int max = findMax(a,n);
+    int *b =(int *)malloc(sizeof(int)*(max+1));
+
+    for(int i = 0 ;i<= max;i++)b[i] = 0;
+    for(int i = 0;i<n;i++){
+        b[a[i]]++;
+    }
+    int i = 0,j=0;
+    while(i <= max){
+        if(b[i] > 0){
+            a[j++] = i;
+            b[i]--; 
+        }else{
+            i++;
+        }
+    }
+}
+//bucket sort
+class Node{
+    public:
+    int data;
+    Node* next;
+    Node(int data){
+        this->data = data;
+        this->next = nullptr;
+    }
+};
+
+void Insert(Node **ptrBins,int idx){
+    Node *temp = new Node(idx);
+
+    if(ptrBins[idx] == nullptr){
+        ptrBins[idx] = temp;
+    }else{
+        Node* last = ptrBins[idx];
+        while(last->next != nullptr){
+            last = last->next;
+        }
+        last->next = temp;
+    }
+}
+
+int Delete(Node **ptrBins,int idx){
+    Node* temp = ptrBins[idx];
+    ptrBins[idx] = ptrBins[idx]->next;
+    int x = temp->data;
+    delete temp;
+    return x;
+}
+
+void BucketSort(int a[],int n){
+    int max = findMax(a,n);
+    Node** bucket = new Node* [max+1];
+
+    for(int i = 0 ;i<=max;i++)bucket[i] = nullptr;
+    for(int i = 0;i<n;i++){
+        Insert(bucket,a[i]);
+    }
+
+    int i = 0,j = 0;
+    while(i< n){
+        if(bucket[j] != nullptr){
+            a[i++] = Delete(bucket,j);
+        }else{
+            j++;
+        }
+    }
+    delete []bucket;
+}
 //Display
 void Display(int a[],int n){
     for(int i = 0;i<n;i++){
@@ -156,7 +235,7 @@ void Display(int a[],int n){
 
 //main
 int main(){
-    int a[] = {3,1,5,7,8,12,9,4,11,2};
+    int a[] = {3,2,2,3,1,1,12,11,10,11};
     // BubbleSort(a,10);
     // InsertionSort(a,10);
     // SelectionSort(a,10);
@@ -164,7 +243,9 @@ int main(){
     // iterativeMerge(a,10);
     // recursiveMerge(a,0,10);
     // recursiveMergeSort(a,0,10);
-    iterativeMergesort(a,10);
+    // iterativeMergesort(a,10);
+    // countSort(a,10);
+    BucketSort(a,10);
     Display(a,10);
     return 0;
 }
