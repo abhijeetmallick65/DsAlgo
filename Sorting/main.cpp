@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<iostream>
 using namespace std;
 
@@ -146,6 +147,30 @@ void iterativeMergesort(int a[],int n){
     }
     if(p/2 < n)mergerP(a,0,p/2-1,n-1);
 }
+
+// count sort
+int findMax(int a[],int n){
+    int max = INT32_MIN;
+    for(int i = 0;i<n;i++){
+        if(a[i] > max)max=a[i];
+    }
+    return max;
+}
+void countSort(int a[],int n){
+    int *c,max, j =0,i = 0;
+    max = findMax(a,n);
+    c = (int *)malloc((max+1) * sizeof(int));
+    for(int i = 0;i<=max;i++)c[i] = 0;
+    for(int i =0;i<n;i++)c[a[i]]++;
+    while(j<=max){
+        if(c[j] > 0){
+            a[i++] = j;
+            c[j]--;
+        }else{
+            j++;
+        }
+    }
+}
 //Display
 void Display(int a[],int n){
     for(int i = 0;i<n;i++){
@@ -164,7 +189,8 @@ int main(){
     // iterativeMerge(a,10);
     // recursiveMerge(a,0,10);
     // recursiveMergeSort(a,0,10);
-    iterativeMergesort(a,10);
+    // iterativeMergesort(a,10);
+    countSort(a,10);
     Display(a,10);
     return 0;
 }
