@@ -171,6 +171,58 @@ void countSort(int a[],int n){
         }
     }
 }
+//
+class Node{
+    public:
+    int data;
+    Node *next;
+    Node(int data){
+        this->data = data;
+        this->next = nullptr;
+    }
+};
+//insert
+void Insert(Node **bucket,int idx){
+    Node *temp = new Node(idx);
+    if(bucket[idx] == nullptr){
+        bucket[idx] = temp;
+    }else{
+        Node *last = bucket[idx];
+        while(last->next != nullptr){
+            last = last->next;
+        }
+        last->next = temp;
+    }
+}
+//delete
+int Delete(Node **bucket,int idx){
+    Node *temp = bucket[idx];
+    int x = temp->data;
+    bucket[idx] = bucket[idx]->next;
+    delete temp;
+    return x;
+}
+//bucket sort
+void BucketSort(int a[],int n){
+    int max = findMax(a,n);
+    Node** bucket = new Node*[max+1];
+
+    for(int i= 0;i<=max;i++){
+        bucket[i] = nullptr;
+    }
+    for(int i = 0;i<n;i++){
+        Insert(bucket,a[i]);
+    }
+
+    int i = 0,j = 0;
+    while(i<n){
+        if(bucket[j] != nullptr){
+            a[i++] = Delete(bucket,j);
+        }else{
+            j++;
+        }
+    }
+}
 //Display
 void Display(int a[],int n){
     for(int i = 0;i<n;i++){
@@ -181,7 +233,7 @@ void Display(int a[],int n){
 
 //main
 int main(){
-    int a[] = {3,1,5,7,8,12,9,4,11,2};
+    int a[] = {1,1,1,2,3,5,4,4,3,2};
     // BubbleSort(a,10);
     // InsertionSort(a,10);
     // SelectionSort(a,10);
@@ -190,7 +242,8 @@ int main(){
     // recursiveMerge(a,0,10);
     // recursiveMergeSort(a,0,10);
     // iterativeMergesort(a,10);
-    countSort(a,10);
+    // countSort(a,10);
+    BucketSort(a,10);
     Display(a,10);
     return 0;
 }
