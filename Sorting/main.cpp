@@ -222,6 +222,63 @@ void BucketSort(int a[],int n){
             j++;
         }
     }
+
+    delete [] bucket;
+}
+
+//Radix sort
+//insert
+void radixInsert(Node **bucket,int idx,int data){
+    Node *temp = new Node(data);
+    if(bucket[idx] == nullptr){
+        bucket[idx] = temp;
+    }else{
+        Node *last = bucket[idx];
+        while(last->next != nullptr){
+            last = last->next;
+        }
+        last->next = temp;
+    }
+}
+//delete
+int radixDelete(Node **bucket,int idx){
+    Node *temp = bucket[idx];
+    int x = temp->data;
+    bucket[idx] = bucket[idx]->next;
+    delete temp;
+    return x;
+}
+void Display(int a[],int n);
+void RadixSort(int a[] ,int n){
+    Node** bucket = new Node*[10];
+    for(int i = 0;i<10;i++)bucket[i] = nullptr;
+
+    int max = findMax(a,n);
+    int digitCount = 0;
+
+    while(max > 0){
+        digitCount++;
+        max /= 10;
+    }
+
+    int divisor = 1;
+    while(digitCount > 0){
+        for(int i = 0;i<n;i++){
+            radixInsert(bucket,(a[i]/divisor)%10,a[i]);
+            cout << (a[i]/divisor)%10 << " " << a[i] << endl;
+        }
+        int i = 0,j = 0;
+        while(i<n){
+            if(bucket[j] != nullptr){
+                a[i++] = radixDelete(bucket,j);
+            }else{
+                j++;
+            }
+        }
+        divisor *= 10;
+        digitCount--;
+    }
+
 }
 //Display
 void Display(int a[],int n){
@@ -233,7 +290,7 @@ void Display(int a[],int n){
 
 //main
 int main(){
-    int a[] = {1,1,1,2,3,5,4,4,3,2};
+    int a[] = {243,214,29,60,34,560,86,94,55,1};
     // BubbleSort(a,10);
     // InsertionSort(a,10);
     // SelectionSort(a,10);
@@ -243,7 +300,8 @@ int main(){
     // recursiveMergeSort(a,0,10);
     // iterativeMergesort(a,10);
     // countSort(a,10);
-    BucketSort(a,10);
+    // BucketSort(a,10);
+    RadixSort(a,10);
     Display(a,10);
     return 0;
 }
