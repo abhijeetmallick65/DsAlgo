@@ -265,7 +265,7 @@ void RadixSort(int a[] ,int n){
     while(digitCount > 0){
         for(int i = 0;i<n;i++){
             radixInsert(bucket,(a[i]/divisor)%10,a[i]);
-            cout << (a[i]/divisor)%10 << " " << a[i] << endl;
+            // cout << (a[i]/divisor)%10 << " " << a[i] << endl;
         }
         int i = 0,j = 0;
         while(i<n){
