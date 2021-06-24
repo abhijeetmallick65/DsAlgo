@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<iostream>
 using namespace std;
 
@@ -147,6 +148,139 @@ void iterativeMergesort(int a[],int n){
     if(p/2 < n)mergerP(a,0,p/2-1,n-1);
 }
 
+
+// count sort
+int findMax(int a[],int n){
+    int max = INT32_MIN;
+    for(int i = 0;i<n;i++){
+        if(a[i] > max)max=a[i];
+    }
+    return max;
+}
+void countSort(int a[],int n){
+    int *c,max, j =0,i = 0;
+    max = findMax(a,n);
+    c = (int *)malloc((max+1) * sizeof(int));
+    for(int i = 0;i<=max;i++)c[i] = 0;
+    for(int i =0;i<n;i++)c[a[i]]++;
+    while(j<=max){
+        if(c[j] > 0){
+            a[i++] = j;
+            c[j]--;
+        }else{
+            j++;
+        }
+    }
+}
+//
+class Node{
+    public:
+    int data;
+    Node *next;
+    Node(int data){
+        this->data = data;
+        this->next = nullptr;
+    }
+};
+//insert
+void Insert(Node **bucket,int idx){
+    Node *temp = new Node(idx);
+    if(bucket[idx] == nullptr){
+        bucket[idx] = temp;
+    }else{
+        Node *last = bucket[idx];
+        while(last->next != nullptr){
+            last = last->next;
+        }
+        last->next = temp;
+    }
+}
+//delete
+int Delete(Node **bucket,int idx){
+    Node *temp = bucket[idx];
+    int x = temp->data;
+    bucket[idx] = bucket[idx]->next;
+    delete temp;
+    return x;
+}
+//bucket sort
+void BucketSort(int a[],int n){
+    int max = findMax(a,n);
+    Node** bucket = new Node*[max+1];
+
+    for(int i= 0;i<=max;i++){
+        bucket[i] = nullptr;
+    }
+    for(int i = 0;i<n;i++){
+        Insert(bucket,a[i]);
+    }
+
+    int i = 0,j = 0;
+    while(i<n){
+        if(bucket[j] != nullptr){
+            a[i++] = Delete(bucket,j);
+        }else{
+            j++;
+        }
+    }
+
+    delete [] bucket;
+}
+
+//Radix sort
+//insert
+void radixInsert(Node **bucket,int idx,int data){
+    Node *temp = new Node(data);
+    if(bucket[idx] == nullptr){
+        bucket[idx] = temp;
+    }else{
+        Node *last = bucket[idx];
+        while(last->next != nullptr){
+            last = last->next;
+        }
+        last->next = temp;
+    }
+}
+//delete
+int radixDelete(Node **bucket,int idx){
+    Node *temp = bucket[idx];
+    int x = temp->data;
+    bucket[idx] = bucket[idx]->next;
+    delete temp;
+    return x;
+}
+void Display(int a[],int n);
+void RadixSort(int a[] ,int n){
+    Node** bucket = new Node*[10];
+    for(int i = 0;i<10;i++)bucket[i] = nullptr;
+
+    int max = findMax(a,n);
+    int digitCount = 0;
+
+    while(max > 0){
+        digitCount++;
+        max /= 10;
+    }
+
+    int divisor = 1;
+    while(digitCount > 0){
+        for(int i = 0;i<n;i++){
+            radixInsert(bucket,(a[i]/divisor)%10,a[i]);
+            cout << (a[i]/divisor)%10 << " " << a[i] << endl;
+        }
+        int i = 0,j = 0;
+        while(i<n){
+            if(bucket[j] != nullptr){
+                a[i++] = radixDelete(bucket,j);
+            }else{
+                j++;
+            }
+        }
+        divisor *= 10;
+        digitCount--;
+    }
+
+}
 //Display
 void Display(int a[],int n){
     for(int i = 0;i<n;i++){
@@ -154,10 +288,88 @@ void Display(int a[],int n){
     }
     cout << endl;
 }
+//count sort
+int findMax(int a[],int n){
+    int max = INT32_MIN;
+    for(int i = 0;i<n;i++){
+        if(max < a[i])max =a[i];
+    }
+    return max;
+}
+void Display(int a[],int n);
+void countSort(int a[],int n){
+    int max = findMax(a,n);
+    int *b =(int *)malloc(sizeof(int)*(max+1));
 
+    for(int i = 0 ;i<= max;i++)b[i] = 0;
+    for(int i = 0;i<n;i++){
+        b[a[i]]++;
+    }
+    int i = 0,j=0;
+    while(i <= max){
+        if(b[i] > 0){
+            a[j++] = i;
+            b[i]--; 
+        }else{
+            i++;
+        }
+    }
+}
+//bucket sort
+class Node{
+    public:
+    int data;
+    Node* next;
+    Node(int data){
+        this->data = data;
+        this->next = nullptr;
+    }
+};
+
+void Insert(Node **ptrBins,int idx){
+    Node *temp = new Node(idx);
+
+    if(ptrBins[idx] == nullptr){
+        ptrBins[idx] = temp;
+    }else{
+        Node* last = ptrBins[idx];
+        while(last->next != nullptr){
+            last = last->next;
+        }
+        last->next = temp;
+    }
+}
+
+int Delete(Node **ptrBins,int idx){
+    Node* temp = ptrBins[idx];
+    ptrBins[idx] = ptrBins[idx]->next;
+    int x = temp->data;
+    delete temp;
+    return x;
+}
+
+void BucketSort(int a[],int n){
+    int max = findMax(a,n);
+    Node** bucket = new Node* [max+1];
+
+    for(int i = 0 ;i<=max;i++)bucket[i] = nullptr;
+    for(int i = 0;i<n;i++){
+        Insert(bucket,a[i]);
+    }
+
+    int i = 0,j = 0;
+    while(i< n){
+        if(bucket[j] != nullptr){
+            a[i++] = Delete(bucket,j);
+        }else{
+            j++;
+        }
+    }
+    delete []bucket;
+}
 //main
 int main(){
-    int a[] = {3,2,2,3,1,1,12,11,10,11};
+    int a[] = {243,214,29,60,34,560,86,94,55,1};
     // BubbleSort(a,10);
     // InsertionSort(a,10);
     // SelectionSort(a,10);
@@ -167,7 +379,8 @@ int main(){
     // recursiveMergeSort(a,0,10);
     // iterativeMergesort(a,10);
     // countSort(a,10);
-    BucketSort(a,10);
+    // BucketSort(a,10);
+    RadixSort(a,10);
     Display(a,10);
     return 0;
 }
