@@ -35,6 +35,28 @@ int Delete(Node** p,int idx){
     return x;
 }
 
+void radixInsert(Node** buckets,int idx ,int data){
+    Node* temp = new Node(data);
+    if(buckets[idx] == nullptr){
+        buckets[idx] = temp;
+    }else{
+        Node* last = buckets[idx];
+        while(last->next != nullptr){
+            last = last->next;
+        }
+        last->next = temp;
+        last = temp;
+    }
+}
+
+int radixDelete(Node** p,int idx){
+    int x = p[idx]->data;
+    Node* temp = p[idx];
+    p[idx] = p[idx]->next;
+    delete temp;
+    return x;
+}
+
 class Sorting{
     int arr[10] = {30,20,70,80,10,40,90,50,60,100};
     int n = 10;
@@ -53,6 +75,15 @@ class Sorting{
             }
         }
         return max;
+    }
+    //digitcount
+    int DigitCount(int num){
+        int count = 0;
+        while(num > 0){
+            count++;
+            num/=10;
+        }
+        return count;
     }
     public:
     //comparison based sorting
@@ -121,6 +152,12 @@ class Sorting{
     }
 
     //merge sort
+    void Merge(){
+    }
+    void IterativeMergeSort(){
+    }
+    void RecursiveMergeSort(){
+    }
 
     //index based sorting
     //count sort
@@ -167,7 +204,35 @@ class Sorting{
         }
     }
     //radix sort
+    void RadixSort(){
+        int max = findMax();
+        Node** bin = new Node*[10];
 
+        for(int i = 0;i<10;i++){
+            bin[i] = nullptr;
+        }
+
+        int digit = DigitCount(max);
+        int divisor = 1;
+
+        while(digit > 0){
+            for(int i = 0;i<n;i++){
+                radixInsert(bin,(arr[i]/divisor)%10,arr[i]);
+            }
+
+            int  i =0,j = 0;
+            while(i<n){
+                if(bin[j] != nullptr){
+                    arr[i++] = radixDelete(bin,j);
+                }else{
+                    j++;
+                }
+            }
+
+            digit--;
+            divisor *=10;
+        }
+    }
     //shell sort
     void ShellSort(){
         for(int gap = n/2;gap>=1;gap/=2){
@@ -200,7 +265,8 @@ int main(){
     // s.quickSort(0,10);
     // s.countSort();
     // s.ShellSort();
-    s.BucketSort();
+    // s.BucketSort();
+    // s.RadixSort();
     s.Display();
     return 0 ;
 }
