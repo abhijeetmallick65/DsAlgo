@@ -152,11 +152,42 @@ class Sorting{
     }
 
     //merge sort
-    void Merge(){
+    void Merge(int a[],int low,int mid,int high){
+        int b[high+1];
+        int i = low,k = low,j = mid+1;
+        while(i<=mid && j<=high){
+            if(a[i]<a[j])b[k++] = a[i++];
+            else b[k++] = a[j++];
+        }
+        for(;i<=mid;i++)b[k++]=a[i];
+        for(;j<=high;j++)b[k++]=a[j];
+
+        for(int i = low;i<=high;i++){
+            a[i] = b[i];
+        }
     }
-    void IterativeMergeSort(){
+    void IterativeMergeSort(int low,int high){
+        int p;
+        for( p =2;p<=high;p*=2){
+            for(int i = 0;i+p-1<high;i+=p){
+                int low = i;
+                int h =i+ p-1;
+                int mid = (low+h)/2;
+                Merge(arr,low,mid,h);
+            }
+        }
+        if(p/2 < high){
+            Merge(arr,0,p/2-1,high-1);
+        }
     }
-    void RecursiveMergeSort(){
+    void RecursiveMergeSort(int low,int high){
+        int mid;
+        if(low<high){
+            mid = (low + high)/2;
+            RecursiveMergeSort(low,mid);
+            RecursiveMergeSort(mid+1,high);
+            Merge(arr,low,mid,high);
+        }
     }
 
     //index based sorting
@@ -267,6 +298,8 @@ int main(){
     // s.ShellSort();
     // s.BucketSort();
     // s.RadixSort();
+    // s.RecursiveMergeSort(0,9);
+    s.IterativeMergeSort(0,10);
     s.Display();
     return 0 ;
 }
