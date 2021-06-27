@@ -3,6 +3,38 @@
 #include<iostream>
 using namespace std;
 
+class Node{
+    public:
+    int data;
+    Node* next;
+    Node(int data){
+        this->data = data;
+        this->next = nullptr;
+    }
+};
+
+void Insert(Node **buckets,int data){
+    Node* temp = new Node(data);
+    if(buckets[data] == nullptr){
+        buckets[data] = temp;
+    }else{
+        Node* last = buckets[data];
+        while(last->next != nullptr){
+            last = last->next;
+        }
+        last->next = temp;
+        last = temp;
+    }
+}
+
+int Delete(Node** p,int idx){
+    int x = p[idx]->data;
+    Node* temp = p[idx];
+    p[idx] = p[idx]->next;
+    delete temp;
+    return x;
+}
+
 class Sorting{
     int arr[10] = {30,20,70,80,10,40,90,50,60,100};
     int n = 10;
@@ -12,7 +44,18 @@ class Sorting{
         *x = *y;
         *y = temp;
     }
+    //findMax
+    int findMax(){
+        int max  = INT32_MIN;
+        for(int i = 0;i<n;i++){
+            if(arr[i] > max){
+                max = arr[i];
+            }
+        }
+        return max;
+    }
     public:
+    //comparison based sorting
     //bubble sort
     void bubbleSort(){
         for(int i = 0;i<n-1;i++){
@@ -49,7 +92,9 @@ class Sorting{
             swap(&arr[i],&arr[k]);
         }
     }
+
     //quick sort
+
     //quick pivotPosition
     int pivotPosition(int a[],int low,int high){
         int pivot = a[low];
@@ -74,7 +119,70 @@ class Sorting{
             quickSort(j+1,high);
         }
     }
+
     //merge sort
+
+    //index based sorting
+    //count sort
+    void countSort(){
+        int max = findMax();
+        int *count = new int[max+1];
+        for(int i = 0;i<=max;i++){
+            count[i] = 0;
+        }
+        for(int i = 0;i<n;i++){
+            count[arr[i]]++;
+        }
+        int i = 0,j = 0;
+        while(i<n){
+            if(count[j] > 0){
+                arr[i++]= j;
+                count[j]--;
+            }else{
+                j++;
+            }
+        }
+    }
+    //bucket sort
+    void BucketSort(){
+        int max = findMax();
+        Node **buckets = new Node*[max+1];
+
+        for(int i = 0 ;i<=max;i++){
+            buckets[i] = nullptr;
+        }
+
+        for(int i = 0;i<n;i++){
+            Insert(buckets,arr[i]);
+        }
+
+        int i = 0,j = 0;
+
+        while(i<n){
+            if(buckets[j] != nullptr){
+                arr[i++] = Delete(buckets,j);
+            }else{
+                j++;
+            }
+        }
+    }
+    //radix sort
+
+    //shell sort
+    void ShellSort(){
+        for(int gap = n/2;gap>=1;gap/=2){
+            for(int i = gap;i<n;i+=gap){
+                int temp = arr[i];
+                int j = i-gap;
+                while(j>=0 && arr[j] > temp){
+                    arr[j+gap] = arr[j];
+                    j -= gap;
+                }
+                arr[j+gap] = temp;
+            }
+        }
+    }
+
     //display
     void Display(){
         for(int i = 0;i<n;i++){
@@ -89,7 +197,10 @@ int main(){
     // s.bubbleSort();
     // s.InsertionSort();
     // s.SelectionSort();
-    s.quickSort(0,10);
+    // s.quickSort(0,10);
+    // s.countSort();
+    // s.ShellSort();
+    s.BucketSort();
     s.Display();
     return 0 ;
 }
