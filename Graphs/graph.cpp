@@ -73,7 +73,7 @@ int main(){
                 {0,0,0,0,1,0,0},
                 {0,0,0,0,1,0,0}};
     // BreadthFirstSearch(G,1,7);
-    DepthFirstSearch(G,1,7);
+    // DepthFirstSearch(G,1,7);
     // bfs(G,1,7);
     dfs(G,1,7);
     return 0;
